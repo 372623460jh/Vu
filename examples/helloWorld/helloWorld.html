@@ -1,11 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Title</title>
+    <meta charset="UTF-8">
+    <title>Title</title>
 </head>
 <body>
+<div class="test">
+    <!--测试-->
+    <div class="parent" v-for="item in arr" :class="item.className" :data-prop="item.className">{{item.tips}}</div>
+</div>
 </body>
+<script src="./vue.js" type="text/javascript"></script>
 <script src="../../src/vu.js" type="text/javascript"></script>
 <script src="./helloWorld.js" type="text/javascript"></script>
 </html>

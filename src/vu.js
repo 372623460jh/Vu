@@ -883,6 +883,11 @@
         el.plain = false;
     }
 
+    // 匹配属性名开头是否是v-或@或:
+    var dirRE = /^v-|^@|^:/;
+    // 匹配属性名开头是否是v-bind:或:
+    var bindRE = /^:|^v-bind:/;
+
     /**
      * 处理属性
      * @param el            vdom
@@ -895,7 +900,19 @@
             name = rawName = list[i].name;
             // 对应的值
             value = list[i].value;
-            addAttr(el, name, JSON.stringify(value));
+            if (dirRE.test(name)) {
+                // 属性名开头是否以v-或@或:开头
+                el.hasBindings = true;
+                if (bindRE.test(name)) {
+                    // 处理v-bind或: 将 v-bind:goods => goods 或 :goods => goods
+                    name = name.replace(bindRE, '');
+                    value = parseFilters(value);
+                    addAttr(el, name, value);
+                }
+            } else {
+                // 其他属性直接添加到ast的attrs属性中
+                addAttr(el, name, JSON.stringify(value));
+            }
         }
     }
 
@@ -946,7 +963,7 @@
                         var commentEnd = html.indexOf('-->');
                         if (commentEnd >= 0 && options.comment) {
                             //截取注释部分
-                            options.comment(html.substring(4, commentEnd));
+                            // options.comment(html.substring(4, commentEnd));
                         }
                         // 将注释从html中剔除
                         advance(commentEnd + 3);
@@ -2268,7 +2285,7 @@
                 try {
                     handlers[i].call(vm);
                 } catch (e) {
-                    baseWarn('hook方法调用生命周期方法出错：' + e);
+                    baseWarn('hook方法调用' + hook + '生命周期方法出错：' + e);
                 }
             }
         }
@@ -4008,16 +4025,9 @@
      * @private
      */
     Vu.prototype._update = function (vnode, hydrating) {
-
         var vm = this;
-
         // 是否执行上下文中的生命周期方法
-        if (vm._isMounted) {
-            callHook(vm, 'beforeUpdate');
-        }
-
-        // 模板对应的dom
-        var prevEl = vm.$el;
+        callHook(vm, 'updateBefore');
         // 之前的vnode
         var prevVnode = vm._vnode;
         var prevActiveInstance = activeInstance;
@@ -4038,6 +4048,8 @@
         if (vm.$vnode && vm.$parent && vm.$vnode === vm.$parent._vnode) {
             vm.$parent.$el = vm.$el;
         }
+        // 调用更新后的什么周期方法
+        callHook(vm, 'updateAfter');
     };
 
     /**
@@ -4071,18 +4083,14 @@
      * @return {*}
      */
     function mountComponent(vm, template, hydrating) {
-
         // 将模板转换为dom对象
         vm.$el = vm.parseDom(template);
-
         // 执行vm中的beforeMount生命周期方法
         callHook(vm, 'beforeMount');
-
         // 更新组件的方法
         var updateComponent = function () {
             vm._update(vm._render(), hydrating);
         };
-
         /**
          * 创建对应vnode的Watcher实例
          * 当data发生改变时会触发Watcher实例的update方法重写调用
@@ -4090,7 +4098,6 @@
          */
         new Watcher(vm, updateComponent, noop, null, true);
         hydrating = false;
-
         return vm;
     }
 
@@ -4104,7 +4111,6 @@
         // 模板
         var template = options.template;
         if (template) {
-
             // 将模板编译为render方法和ast
             var ref = Vu.compile(template, {});
             var render = ref.render;
@@ -4114,7 +4120,6 @@
             options.staticRenderFns = staticRenderFns;
             options.ast = ast;
         }
-
         return mountComponent.call(this, this, template, hydrating);
     };
 
@@ -4142,10 +4147,36 @@
     };
 
     /**
+     * 强制根据data重置整个页面会闪动，更新完后调用cb
+     */
+    Vu.prototype.resetVu = function (data, cb) {
+        var vm = this;
+        // 清空实体dom
+        vm.$el = vm.parseDom(vm.$options.template);
+        // 清空vnode实现整体重置更新
+        vm._vnode = null;
+        Object.keys(data).forEach(function (item) {
+            vm._data[item] = data[item];
+        });
+        // 自建什么周期方法
+        function _updateAfter() {
+            vm.$options.updateAfter.pop();
+            cb.call(vm);
+        }
+
+        //给vm添加生命周期方法
+        if (vm.$options.updateAfter) {
+            //存在updateAfter生命周期 追加
+            vm.$options.updateAfter.push(_updateAfter);
+        } else {
+            //不存在updateAfter生命周期 新建
+            vm.$options.updateAfter = [_updateAfter];
+        }
+    };
+
+    /**
      * diff vnode 初始化dom的方法
      */
     Vu.prototype.__patch__ = inBrowser ? patch : noop;
-
     return Vu;
-
 });

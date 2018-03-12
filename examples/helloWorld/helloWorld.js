@@ -2,55 +2,16 @@
 
     'use strict';
 
-    var temp =
-        '<div class="test">' +
-        '    <!--测试-->' +
-        '   <div class="parent" -for="item in arr" :class="item.className" :data-prop="item.className">' +
-        '       {{item.tips}}' +
-        '   </div>' +
-        '</div>';
-
+    // 模板
+    var temp = '<div>{{hello}}</div>';
+    // 数据
+    var data = {
+        hello: '你好,世界!'
+    };
     var vu = new $Vu({
         template: temp,
-        data: {
-            arr: [
-                {
-                    className: 'name1',
-                    tips: 'tips1'
-                },
-                {
-                    className: 'name2',
-                    tips: 'tips2'
-                },
-                {
-                    className: 'name3',
-                    tips: 'tips3'
-                }
-            ]
-        }
+        data: data
     });
-
-    document.body.appendChild(vu.$el);
-
-    var vu = new Vue({
-        el: '.test',
-        data: {
-            arr: [
-                {
-                    className: 'name1',
-                    tips: 'tips1'
-                },
-                {
-                    className: 'name2',
-                    tips: 'tips2'
-                },
-                {
-                    className: 'name3',
-                    tips: 'tips3'
-                }
-            ]
-        }
-    });
-
+    vu.appendIn(document.body);
 
 })(window);

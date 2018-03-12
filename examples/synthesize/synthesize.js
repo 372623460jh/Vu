@@ -120,11 +120,11 @@
     });
     vu.appendIn(document.body);
 
+    // 1s后随机打乱数据重新渲染
     setTimeout(function () {
         data.list.sort(function () {
             return (0.5 - Math.random());
         })
     }, 1000);
-
 
 })(window);

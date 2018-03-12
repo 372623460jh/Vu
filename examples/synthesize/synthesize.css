@@ -1,0 +1,41 @@
+html body {
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+    list-style: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+ul li {
+    height: 100px;
+    width: 100%;
+    margin-bottom: 10px;
+    border-top: 1px solid rgba(199, 199, 199, .5);
+    border-bottom: 1px solid rgba(199, 199, 199, .5);
+}
+
+li img {
+    height: 80px;
+    width: 80px;
+    margin: 10px 0 0 30px;
+}
+
+.js_classname{
+    background-color: aqua;
+}
+
+.react_classname{
+    background-color: #80ffa9;
+}
+
+.jsnodejs_classname{
+    background-color: #ecff9b;
+}
+
+.vue_classname{
+    background-color: #88ffdf;
+}

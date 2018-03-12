@@ -2978,7 +2978,7 @@
             // 调用页面更新方法返回和页面相关的数据
             value = this.getter.call(vm, vm);
         } catch (e) {
-            baseWarn('在观察者(watcher)中更新页面的方法执行出错' + e);
+            baseWarn('在观察者(watcher)中更新的方法执行出错' + e);
         } finally {
             popTarget();
         }
@@ -3261,12 +3261,12 @@
             /**
              * 初始化cbs对象
              * cbs = {
-         *     create:[所有create的方法],
-         *     activate:[所有activate的方法],
-         *     update:[所有update的方法],
-         *     remove:[所有remove的方法],
-         *     destroy:[所有destroy的方法]
-         * }
+            *     create:[所有create的方法],
+            *     activate:[所有activate的方法],
+            *     update:[所有update的方法],
+            *     remove:[所有remove的方法],
+            *     destroy:[所有destroy的方法]
+            * }
              */
             for (i = 0; i < hooks.length; ++i) {
                 cbs[hooks[i]] = [];
@@ -3448,6 +3448,18 @@
                 } else {
                     removeNode(vnode.elm);
                 }
+            }
+
+            function createKeyToOldIdx(children, beginIdx, endIdx) {
+                var i, key;
+                var map = {};
+                for (i = beginIdx; i <= endIdx; ++i) {
+                    key = children[i].key;
+                    if (isDef(key)) {
+                        map[key] = i;
+                    }
+                }
+                return map
             }
 
             /**
@@ -4172,6 +4184,15 @@
             //不存在updateAfter生命周期 新建
             vm.$options.updateAfter = [_updateAfter];
         }
+    };
+
+    /**
+     * 将vu模板生成的dom插入parentDom中
+     * @param parentDom
+     */
+    Vu.prototype.appendIn = function (parentDom) {
+        var vm = this;
+        parentDom.appendChild(vm.$el);
     };
 
     /**

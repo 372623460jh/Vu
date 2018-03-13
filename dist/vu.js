@@ -1663,7 +1663,7 @@
         try {
             value = this.getter.call(vm, vm)
         } catch (e) {
-            baseWarn('在观察者(watcher)中更新页面的方法执行出错' + e)
+            baseWarn('在观察者(watcher)中更新的方法执行出错' + e)
         } finally {
             popTarget()
         }
@@ -1947,6 +1947,18 @@
                 } else {
                     removeNode(vnode.elm)
                 }
+            }
+
+            function createKeyToOldIdx(children, beginIdx, endIdx) {
+                var i, key;
+                var map = {};
+                for (i = beginIdx; i <= endIdx; ++i) {
+                    key = children[i].key;
+                    if (isDef(key)) {
+                        map[key] = i
+                    }
+                }
+                return map
             }
 
             function updateChildren(parentElm, oldCh, newCh, insertedVnodeQueue, removeOnly) {
@@ -2371,10 +2383,7 @@
     var activeInstance = null;
     Vu.prototype._update = function (vnode, hydrating) {
         var vm = this;
-        if (vm._isMounted) {
-            callHook(vm, 'beforeUpdate')
-        }
-        var prevEl = vm.$el;
+        callHook(vm, 'updateBefore');
         var prevVnode = vm._vnode;
         var prevActiveInstance = activeInstance;
         activeInstance = vm;
@@ -2451,7 +2460,7 @@
         });
         function _updateAfter() {
             vm.$options.updateAfter.pop();
-            cb()
+            cb.call(vm)
         }
 
         if (vm.$options.updateAfter) {
@@ -2459,6 +2468,10 @@
         } else {
             vm.$options.updateAfter = [_updateAfter]
         }
+    };
+    Vu.prototype.appendIn = function (parentDom) {
+        var vm = this;
+        parentDom.appendChild(vm.$el)
     };
     Vu.prototype.__patch__ = inBrowser ? patch : noop;
     return Vu

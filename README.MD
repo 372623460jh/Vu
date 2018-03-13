@@ -15,6 +15,7 @@ vu是参照vue思想开发出的一个轻量,高性能的mvvm框架,之所以叫
 - Mustache占位符`{{}}`
 
     使用模板和数据创建vu实例,在Vu中标签的内容使用Mustache模板引擎中一样形式的{{}}占位符
+    
     demo:https://github.com/372623460jh/Vu/tree/master/examples/helloWorld
     
     ```javascript
@@ -32,6 +33,7 @@ vu是参照vue思想开发出的一个轻量,高性能的mvvm框架,之所以叫
 - 条件指令`-if  -else-if  -else`
 
     条件指令,指令中可以嵌入表达式
+    
     demo:https://github.com/372623460jh/Vu/tree/master/examples/if
     
     ```javascript
@@ -55,6 +57,7 @@ vu是参照vue思想开发出的一个轻量,高性能的mvvm框架,之所以叫
 - 循环指令`-for`
 
     循环指令
+    
     demo:https://github.com/372623460jh/Vu/tree/master/examples/for
     
     ```javascript
@@ -86,6 +89,7 @@ vu是参照vue思想开发出的一个轻量,高性能的mvvm框架,之所以叫
 - 绑定属性指令`:`
 
     绑定属性指令:`:attrName`用来给标签的属性绑定数据
+    
     demo:https://github.com/372623460jh/Vu/tree/master/examples/bindAttrs
     
     ```javascript
@@ -112,22 +116,23 @@ vu是参照vue思想开发出的一个轻量,高性能的mvvm框架,之所以叫
 - 综合使用案例
     
     将所有指令混合使用的案例
+    
     demo:https://github.com/372623460jh/Vu/tree/master/examples/synthesize
     
 ## vu实例属性，方法介绍
     
-    ###属性
-        - $el:该属性存放生成的element
-        - $options:该属性存放实例化Vu时的入参
-        - _data:该属性存放用于驱动页面的数据
-            -__ob__:属性对应的数据拦截者对象
-        - _vnode:该属性存放执行render方法生成的虚拟dom(vnode)
-        - _watchers：model层观察者集合
-        - _watcher：当前实例对应model层观察者
-        - _staticTrees: 是不是静态树（不会因为数据改变而变化的节点）
+###属性
+    - $el:该属性存放生成的element
+    - $options:该属性存放实例化Vu时的入参
+    - _data:该属性存放用于驱动页面的数据
+        -__ob__:属性对应的数据拦截者对象
+    - _vnode:该属性存放执行render方法生成的虚拟dom(vnode)
+    - _watchers：model层观察者集合
+    - _watcher：当前实例对应model层观察者
+    - _staticTrees: 是不是静态树（不会因为数据改变而变化的节点）
 
-    ###方法
-        - appendIn:将vu生成的dom添加到指定元素中
-        - parseDom:将html字符串装换为dom对象
-        - resetVu:使用数据强制重置模板（非局部更新,页面会闪一下）
-        - setAllDate:整体设置数据，vu会帮你检测变化的数据来实现局部更新
+###方法
+    - appendIn:将vu生成的dom添加到指定元素中
+    - parseDom:将html字符串装换为dom对象
+    - resetVu:使用数据强制重置模板（非局部更新,页面会闪一下）
+    - setAllDate:整体设置数据，vu会帮你检测变化的数据来实现局部更新

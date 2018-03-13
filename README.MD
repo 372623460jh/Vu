@@ -10,7 +10,7 @@ vu是参照vue思想开发出的一个轻量,高性能的mvvm框架,之所以叫
 
 - pro链接：http://libs.ijianghe.cn/js/vu/vu.min.js
 
-## 列举下vu拥有的特性:
+## vu特性:
 
 - 单向的数据驱动视图，数据的改变驱动界面改变。
 

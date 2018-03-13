@@ -11,6 +11,7 @@
     // 模板
     var temp = '' +
         '<ul>' +
+        '    <li class="pub_li click">打乱排序</li>' +
         '    <li -for="item in list" class="pub_li" :class="item.className" :data-key="item.key">' +
         '        <img :src="item.img" class="pub_img" alt="">' +
         '        <span class="pub_name">{{item.name}}</span>' +
@@ -120,11 +121,11 @@
     });
     vu.appendIn(document.body);
 
-    // 1s后随机打乱数据重新渲染
-    setTimeout(function () {
+    vu.$el.querySelector('.click').addEventListener('click', function (e) {
         data.list.sort(function () {
             return (0.5 - Math.random());
         })
-    }, 1000);
+    })
+
 
 })(window);

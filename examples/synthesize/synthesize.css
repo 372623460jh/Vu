@@ -24,18 +24,24 @@ li img {
     margin: 10px 0 0 30px;
 }
 
-.js_classname{
+.js_classname {
     background-color: aqua;
 }
 
-.react_classname{
+.react_classname {
     background-color: #80ffa9;
 }
 
-.jsnodejs_classname{
+.jsnodejs_classname {
     background-color: #ecff9b;
 }
 
-.vue_classname{
+.vue_classname {
     background-color: #88ffdf;
+}
+
+.click {
+    line-height: 100px;
+    font-size: 60px;
+    text-align: center;
 }

@@ -2,14 +2,6 @@
 
 vu是参照vue思想开发出的一个轻量,高性能的mvvm框架,之所以叫vu寓意是残疾版的vue。
 
-## 地址链接
-
-- 源码所在位置：https://github.com/372623460jh/Vu/tree/master/dist
-
-- dev链接：http://libs.ijianghe.cn/js/vu/vu.js
-
-- pro链接：http://libs.ijianghe.cn/js/vu/vu.min.js
-
 ## vu特性:
 
 - 单向的数据驱动视图，数据的改变驱动界面改变。
